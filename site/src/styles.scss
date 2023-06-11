@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+@import 'ngx-toastr/toastr';
+
+html {
+    font-family: 'Roboto', sans-serif;
+}
+
+// ColorSpace: https://mycolor.space/?hex=%2307689f&sub=1
+$primary: #111111;
+$secondary: #818383;
+$success: #38C08F;
+$danger: #cc4229;
+$warning: #E69B41;
+$info: #70B0ED;
+$light: #f1f1f1 ;
+$dark: #141414;
+
+$theme-colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+  "success": $success,
+  "danger": $danger,
+  "warning": $warning,
+  "info": $info,
+  "light": $light,
+  "dark": $dark,
+);
+
+@import 'bootstrap/scss/bootstrap';

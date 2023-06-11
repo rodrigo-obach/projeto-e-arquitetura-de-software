@@ -1,0 +1,50 @@
+<nav class="header navbar navbar-expand-lg navbar-dark navbar-primary bg-primary">
+  <div class="container-fluid bg-primary">
+    <a routerLink="/" class="navbar-brand">
+      <img src="/assets/images/logo-branco.png" class="logo" />
+    </a>
+
+    <button type="button" class="navbar-toggler text-light" (click)="toggleMenu($event)">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="navbar-collapse" id="navbar-content" [ngbCollapse]="menuCollapsed">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li
+          *ngFor="let item of menu"
+          class="nav-item"
+          [ngClass]="{ dropdown: !!item.subMenu }"
+          (mouseover)="enterMenu(item)"
+          (mouseleave)="leaveMenu(item)"
+        >
+          <a [routerLink]="item.link ?? ''" class="nav-link px-2 link-light">{{ item.title }}</a>
+          <ul *ngIf="item.subMenu" class="dropdown-menu" [ngbCollapse]="!isOpen(item)" [animation]="false">
+            <li *ngFor="let subItem of item.subMenu">
+              <a [routerLink]="subItem.link" class="dropdown-item">{{ subItem.title }}</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+      <div
+        class="dropdown text-end text-light p-3"
+        (mouseover)="profileCollapsed = false"
+        (mouseleave)="profileCollapsed = true"
+      >
+        <a class="link-light text-decoration-none dropdown-toggle" href="#" *ngIf="user">
+          <app-user-icon [name]="user.name"></app-user-icon>&nbsp;{{ user.name }}
+        </a>
+        <ul class="dropdown-menu text-small" [ngbCollapse]="profileCollapsed" [animation]="false">
+          <li>
+            <a class="dropdown-item" href="#" (click)="logout()">Sair</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+<main class="main-content bg-light">
+  <div class="scroll bg-light">
+    <router-outlet></router-outlet>
+  </div>
+</main>

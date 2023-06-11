@@ -1,0 +1,43 @@
+<h3>Remessas</h3>
+<hr />
+
+<div class="row my-4">
+  <div class="col-9 col-md-4 col-lg-3">
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="Perquisar" (input)="buscar($event)" />
+      <span class="input-group-text border-0" id="search-addon">
+        <fa-icon [icon]="faSearch"></fa-icon>
+      </span>
+    </div>
+  </div>
+  <div class="col-3 col-md-8 col-lg-9">
+    <a *ngIf="podeEditar" class="btn btn-primary float-end" routerLink="/remessas/nova">Nova remessa</a>
+  </div>
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Descrição</th>
+      <th>Data</th>
+      <th *ngIf="podeEditar"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let remessa of remessas?.data; index as i">
+      <td>{{ remessa.descricao }}</td>
+      <td>{{ remessa.data }}</td>
+      <td *ngIf="podeEditar">
+        <a [routerLink]="'/remessas/' + remessa.id" class="btn btn-primary btn-sm">Editar</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<ngb-pagination
+  *ngIf="remessas"
+  (pageChange)="carregarRemessas($event)"
+  [page]="remessas.pagination.currentPage + 1"
+  [pageSize]="remessas.pagination.pageSize"
+  [collectionSize]="remessas.pagination.total"
+></ngb-pagination>

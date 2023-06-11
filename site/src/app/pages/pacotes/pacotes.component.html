@@ -1,0 +1,47 @@
+<h3>Pacotes</h3>
+<hr />
+
+<div class="row my-4">
+  <div class="col-9 col-md-4 col-lg-3">
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="Perquisar" (input)="buscar($event)" />
+      <span class="input-group-text border-0" id="search-addon">
+        <fa-icon [icon]="faSearch"></fa-icon>
+      </span>
+    </div>
+  </div>
+  <div class="col-3 col-md-8 col-lg-9">
+    <a *ngIf="podeEditar" class="btn btn-primary float-end" routerLink="/pacotes/novo">Novo pacote</a>
+  </div>
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Identificador</th>
+      <th>Prazo de entrega</th>
+      <th>Destinatário</th>
+      <th>Endereço</th>
+      <th *ngIf="podeEditar"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let pacote of pacotes?.data; index as i">
+      <td>{{ pacote.identificador }}</td>
+      <td>{{ pacote.prazoEntrega }}</td>
+      <td>{{ pacote.destinatario }}</td>
+      <td>{{ pacote.endereco }}</td>
+      <td *ngIf="podeEditar">
+        <a [routerLink]="'/pacotes/' + pacote.id" class="btn btn-primary btn-sm">Editar</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<ngb-pagination
+  *ngIf="pacotes"
+  (pageChange)="carregarPacotes($event)"
+  [page]="pacotes.pagination.currentPage + 1"
+  [pageSize]="pacotes.pagination.pageSize"
+  [collectionSize]="pacotes.pagination.total"
+></ngb-pagination>

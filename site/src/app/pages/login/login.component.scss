@@ -1,0 +1,19 @@
+.login {
+  .form {
+    margin: auto;
+    padding: 28px;
+    max-width: 400px;
+    width: 100%;
+
+    .logo {
+      max-height: 80px;
+      margin-bottom: 20px;
+    }
+
+    .login-button {
+      display: block;
+      max-width: 300px;
+      margin: 32px auto 0;
+    }
+  }
+}

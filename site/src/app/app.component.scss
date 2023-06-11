@@ -1,0 +1,29 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 65px;
+  width: 100vw;
+
+  .logo {
+    max-height: 44px;
+  }
+}
+
+.main-content {
+  box-sizing: border-box;
+  padding-top: 65px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: -1;
+
+  .scroll {
+    height: 100%;
+    overflow: auto;
+    padding: 16px;
+    box-sizing: border-box;
+  }
+}

@@ -1,0 +1,19 @@
+version: '3.9'
+
+services:
+  mysql:
+    image: mysql:8
+    ports:
+      - 3306:3306
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_PASSWORD=password
+      - MYSQL_USER=mysql
+      - MYSQL_DATABASE=proj_arq_software
+      
+  maildev:
+    image: maildev/maildev
+    ports:
+      - 1025:1025
+      - 1080:1080

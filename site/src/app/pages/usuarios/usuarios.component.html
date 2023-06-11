@@ -1,0 +1,44 @@
+<h3>Usuários</h3>
+<hr />
+
+<div class="row my-4">
+  <div class="col-9 col-md-4 col-lg-3">
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="Perquisar por nome ou e-mail" (input)="buscar($event)" />
+      <span class="input-group-text border-0" id="search-addon">
+        <fa-icon [icon]="faSearch"></fa-icon>
+      </span>
+    </div>
+  </div>
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>E-mail</th>
+      <th>Grupo</th>
+      <th>Ativo</th>
+      <th *ngIf="podeEditar"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let usuario of usuarios?.data; index as i">
+      <td>{{ usuario.nome }}</td>
+      <td>{{ usuario.email }}</td>
+      <td>{{ usuario.grupo.nome }}</td>
+      <td>{{ usuario.ativo ? 'Ativo' : 'Inativo' }}</td>
+      <td *ngIf="podeEditar">
+        <a [routerLink]="'/usuarios/' + usuario.id" class="btn btn-primary btn-sm">Editar</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<ngb-pagination
+  *ngIf="usuarios"
+  (pageChange)="carregarUsuarios($event)"
+  [page]="usuarios.pagination.currentPage + 1"
+  [pageSize]="usuarios.pagination.pageSize"
+  [collectionSize]="usuarios.pagination.total"
+></ngb-pagination>

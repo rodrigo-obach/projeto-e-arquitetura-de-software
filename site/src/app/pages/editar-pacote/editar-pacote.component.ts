@@ -20,7 +20,7 @@ export class EditarPacoteComponent implements OnInit {
     identificador: new FormControl('', [Validators.required]),
     prazoEntrega: new FormControl<Date | null>(null, [Validators.required]),
     destinatario: new FormControl('', [Validators.required]),
-    endereco: new FormControl('', [Validators.required]),
+    endereco: new FormControl<BuscarEnderecoResponse | null>(null, [Validators.required]),
     complemento: new FormControl('', [])
   })
 
@@ -40,13 +40,19 @@ export class EditarPacoteComponent implements OnInit {
 
     id$.subscribe((id) => {
       this.pacotesClient.obter(id).subscribe((pacote) => {
+        console.log(pacote)
+
         this.pacote = pacote
         this.form.setValue({
           identificador: pacote.identificador,
           prazoEntrega: pacote.prazoEntrega,
           destinatario: pacote.destinatario,
-          endereco: pacote.endereco,
-          complemento: pacote.complemento
+          endereco: {
+            nome: pacote.endereco,
+            latitude: pacote.latitude,
+            longitude: pacote.longitude
+          },
+          complemento: pacote.complemento ?? ''
         })
       })
     })
@@ -57,11 +63,10 @@ export class EditarPacoteComponent implements OnInit {
       identificador: this.form.value.identificador!,
       prazoEntrega: this.form.value.prazoEntrega!,
       destinatario: this.form.value.destinatario!,
-      endereco: this.form.value.endereco!,
-      complemento: this.form.value.complemento ?? null,
-      // TODO: usar API
-      latitude: 0,
-      longitude: 0
+      endereco: this.form.value.endereco!.nome,
+      latitude: this.form.value.endereco!.latitude,
+      longitude: this.form.value.endereco!.longitude,
+      complemento: this.form.value.complemento ?? null
     }
 
     const observable = this.pacote
@@ -87,7 +92,7 @@ export class EditarPacoteComponent implements OnInit {
       })
     )
 
-    obterNomeEndereco(endereco: BuscarEnderecoResponse) {
-      return endereco.nome
-    }
+  obterNomeEndereco(endereco: BuscarEnderecoResponse) {
+    return endereco.nome
+  }
 }

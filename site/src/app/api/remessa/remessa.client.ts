@@ -29,6 +29,6 @@ export class RemessasClient {
   }
 
   public editar(id: number, request: CriarOuEditarRemessaRequest) {
-    return this.httpClient.patch<void>(`api/v1/remessas/${id}`, request)
+    return this.httpClient.put<void>(`api/v1/remessas/${id}`, request)
   }
 }

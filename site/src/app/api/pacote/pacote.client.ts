@@ -24,6 +24,6 @@ export class PacotesClient {
   }
 
   public editar(id: number, request: CriarOuEditarPacoteRequest) {
-    return this.httpClient.patch<void>(`api/v1/pacotes/${id}`, request)
+    return this.httpClient.put<void>(`api/v1/pacotes/${id}`, request)
   }
 }

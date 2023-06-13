@@ -8,6 +8,7 @@ export interface DadosPacote {
   prazoEntrega: Date
   destinatario: string
   endereco: string
+  idRemessa: number | null
 }
 
 export interface BuscarPacoteResponse extends PagedResult<DadosPacote[]> {}
@@ -29,7 +30,8 @@ export class BuscarPacotesHandler {
       identificador: p.identificador,
       prazoEntrega: p.prazoEntrega,
       destinatario: p.destinatario,
-      endereco: p.endereco
+      endereco: p.endereco,
+      idRemessa: p.remessa?.id ?? null
     }))
   }
 }

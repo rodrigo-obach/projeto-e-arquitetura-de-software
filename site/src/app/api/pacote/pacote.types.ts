@@ -7,6 +7,7 @@ export interface BuscarPacotesResponse {
   prazoEntrega: Date
   destinatario: string
   endereco: string
+  idRemessa: number | null
 }
 
 export interface ObterPacoteResponse {

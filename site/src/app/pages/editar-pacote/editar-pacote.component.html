@@ -2,25 +2,40 @@
 <hr />
 
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div class="form-group col-12 col-md-3">
-    <label for="identificador">Identificador*</label>
-    <input formControlName="identificador" type="text" class="form-control" />
+  <div class="row">
+    <div class="form-group col-12 col-md-6">
+      <label for="identificador">Identificador*</label>
+      <input formControlName="identificador" type="text" class="form-control" />
+    </div>
+    <div class="form-group col-12 col-md-6">
+      <label for="prazoEntrega">Prazo de entrega*</label>
+      <input formControlName="prazoEntrega" type="date" class="form-control" />
+    </div>
   </div>
-  <div class="form-group col-12 col-md-3">
-    <label for="prazoEntrega">Prazo de entrega*</label>
-    <input formControlName="prazoEntrega" type="date" class="form-control" />
+  <div class="row">
+    <div class="form-group col-12">
+      <label for="destinatario">Destinatário*</label>
+      <input formControlName="destinatario" type="text" class="form-control" />
+    </div>
   </div>
-  <div class="form-group col-12 col-md-3">
-    <label for="destinatario">Destinatário*</label>
-    <input formControlName="destinatario" type="text" class="form-control" />
+  <div class="row">
+    <div class="form-group col-12">
+      <label for="endereco">Endereço*</label>
+      <input
+        formControlName="endereco"
+        type="text"
+        class="form-control"
+        [ngbTypeahead]="buscarEndereco"
+        [inputFormatter]="obterNomeEndereco"
+        [resultFormatter]="obterNomeEndereco"
+      />
+    </div>
   </div>
-  <div class="form-group col-12 col-md-3">
-    <label for="endereco">Endereço*</label>
-    <input formControlName="endereco" type="text" class="form-control" [ngbTypeahead]="buscarEndereco" [inputFormatter]="obterNomeEndereco" [resultFormatter]="obterNomeEndereco" />
-  </div>
-  <div class="form-group col-12 col-md-3">
-    <label for="complemento">Complemento</label>
-    <input formControlName="complemento" type="text" class="form-control" />
+  <div class="row">
+    <div class="form-group col-12">
+      <label for="complemento">Complemento</label>
+      <input formControlName="complemento" type="text" class="form-control" />
+    </div>
   </div>
   <button type="submit" class="btn btn-primary mt-3" [disabled]="!form.valid">Salvar</button>
 </form>

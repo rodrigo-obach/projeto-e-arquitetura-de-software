@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { combineLatestWith, map } from 'rxjs'
+import { combineLatestWith, debounceTime, distinctUntilChanged, filter, map, Subject } from 'rxjs'
 import { GrupoResponse } from 'src/app/api/grupo/grupo.types'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { GrupoClient } from 'src/app/api/grupo/grupo.client'
@@ -10,7 +10,8 @@ import { ObterRemessaResponse } from 'src/app/api/remessa/remessa.types'
 import { RemessasClient } from 'src/app/api/remessa/remessa.client'
 import { PacotesClient } from 'src/app/api/pacote/pacote.client'
 import { BuscarPacotesResponse } from 'src/app/api/pacote/pacote.types'
-
+import { PagedResult } from 'src/app/api/common/page-result'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 @Component({
   selector: 'app-editar-remessa',
@@ -18,11 +19,14 @@ import { BuscarPacotesResponse } from 'src/app/api/pacote/pacote.types'
   styleUrls: ['./editar-remessa.component.scss']
 })
 export class EditarRemessaComponent implements OnInit {
-  pacotes?: BuscarPacotesResponse[]
+  faSearch = faSearch
+  searchSubject = new Subject<string | undefined>()
+  pacotes?: PagedResult<BuscarPacotesResponse>
   remessa?: ObterRemessaResponse
   form = new FormGroup({
-    grupo: new FormControl(0, [Validators.required]),
-     ativo: new FormControl(false, [])
+    descricao: new FormControl('', [Validators.required]),
+    data: new FormControl<Date | null>(null, []),
+    pacotes: new FormControl(new Set<number>(), [])
   })
 
   constructor(
@@ -34,30 +38,66 @@ export class EditarRemessaComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // const id$ = this.route.params.pipe(map(({ id }) => parseInt(id, 10)))
-    // const grupos$ = this.grupoClient.obterTodos()
+    this.carregarPacotes(1)
 
-    // id$.pipe(combineLatestWith(grupos$)).subscribe(([id, grupos]) => {
-    //   this.grupos = grupos
-    //   this.usuarioClient.obter(id).subscribe((usuario) => {
-    //     this.usuario = usuario
-    //     this.form.setValue({
-    //       grupo: usuario.grupo.id,
-    //       ativo: usuario.ativo
-    //     })
-    //   })
-    // })
+    this.searchSubject
+      .pipe(debounceTime(300), distinctUntilChanged())
+      .subscribe((termo) => this.carregarPacotes(1, termo))
+
+    this.route.params
+      .pipe(
+        map(({ id }) => parseInt(id, 10)),
+        filter((id) => !isNaN(id))
+      )
+      .subscribe((id) => {
+        this.remessasClient.obter(id).subscribe((remessa) => {
+          this.remessa = remessa
+          this.form.setValue({
+            descricao: remessa.descricao,
+            data: remessa.data,
+            pacotes: new Set<number>(remessa.pacotes)
+          })
+        })
+      })
+  }
+
+  carregarPacotes(page: number, termo?: string) {
+    this.pacotesClient.buscar(termo ?? '', 'todos', page - 1, 10).subscribe((response) => {
+      this.pacotes = response
+    })
+  }
+
+  buscarPacotes(event: Event) {
+    const termo = (event.target as HTMLInputElement).value
+    this.searchSubject.next(termo?.trim())
+  }
+
+  pacoteSelecionado(idPacote: number) {
+    return this.form.value.pacotes?.has(idPacote)
+  }
+
+  selecionarPacote(event: any, idPacote: number) {
+    if (event.target.checked) {
+      this.form.value.pacotes?.add(idPacote)
+    } else {
+      this.form.value.pacotes?.delete(idPacote)
+    }
   }
 
   onSubmit() {
-    // this.usuarioClient
-    //   .editar(this.usuario!.id, {
-    //     ativo: this.form.value.ativo!,
-    //     idGrupo: this.form.value.grupo!
-    //   })
-    //   .subscribe(() => {
-    //     this.toastr.success(`Usuário editado com sucesso!`)
-    //     this.router.navigate(appRoutes.usuarios)
-    //   })
+    const request = {
+      descricao: this.form.value.descricao!,
+      data: this.form.value.data!,
+      pacotes: Array.from(this.form.value.pacotes!)
+    }
+
+    const observable = this.remessa
+      ? this.remessasClient.editar(this.remessa.id, request)
+      : this.remessasClient.criar(request).pipe(map(() => {}))
+
+    observable.subscribe(() => {
+      this.toastr.success(this.remessa ? 'Remessa editada com sucesso!' : 'Remessa criada com sucesso!')
+      this.router.navigate(appRoutes.remessas)
+    })
   }
 }

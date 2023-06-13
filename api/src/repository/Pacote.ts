@@ -10,14 +10,18 @@ export class PacoteRepository extends BaseRepository<Pacote> {
   }
 
   public obter(id: number): Promise<Pacote | undefined> {
-    return this.repository.createQueryBuilder('p').where('p.id = :id', { id }).getOne()
+    return this.repository
+      .createQueryBuilder('p')
+      .leftJoinAndSelect('p.remessa', 'r')
+      .where('p.id = :id', { id })
+      .getOne()
   }
 
   async buscar(termo: string, filtro: FiltroRemessa, page: number, pageSize: number) {
-    let query = this.repository.createQueryBuilder('p')
+    let query = this.repository.createQueryBuilder('p').leftJoinAndSelect('p.remessa', 'r')
 
-    if (filtro) {
-      query = query.where('p.identificador LIKE :termo OR p.destinatario LIKE :termo', { termo })
+    if (termo) {
+      query = query.where('p.identificador LIKE :termo OR p.destinatario LIKE :termo', { termo: `%${termo}%` })
     }
 
     if (filtro === 'com-remessa') {

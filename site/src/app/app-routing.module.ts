@@ -12,6 +12,7 @@ import { UsuariosComponent } from './pages/usuarios/usuarios.component'
 import { PacotesComponent } from './pages/pacotes/pacotes.component'
 import { EditarRemessaComponent } from './pages/editar-remessa/editar-remessa.component'
 import { EditarPacoteComponent } from './pages/editar-pacote/editar-pacote.component'
+import { RotaComponent } from './pages/rota/rota.component'
 
 const routes: Routes = [
   {
@@ -19,16 +20,16 @@ const routes: Routes = [
     component: HomeComponent,
     canActivate: [AuthGuardService]
   },
-  {
-    path: 'login',
-    component: LoginComponent,
-    canActivate: [AuthGuardService],
-    data: { unathenticatedOnly: true }
-  },
+  // {
+  //   path: 'login',
+  //   component: LoginComponent,
+  //   canActivate: [AuthGuardService],
+  //   data: { unathenticatedOnly: true }
+  // },
   {
     path: 'sem-acesso',
     component: SemAcessoComponent,
-    canActivate: [AuthGuardService],
+    canActivate: [AuthGuardService]
   },
   {
     path: 'usuarios',
@@ -65,6 +66,12 @@ const routes: Routes = [
     component: EditarRemessaComponent,
     canActivate: [AuthGuardService],
     data: { permission: appPermissions.remessa.editar }
+  },
+  {
+    path: 'login',
+    component: RotaComponent,
+    canActivate: [AuthGuardService],
+    data: { /*permission: appPermissions.remessa.editar,*/ unathenticatedOnly: true, margin: false }
   }
 ]
 

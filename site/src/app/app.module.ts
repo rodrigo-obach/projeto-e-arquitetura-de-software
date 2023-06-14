@@ -30,6 +30,7 @@ import { RemessasComponent } from './pages/remessas/remessas.component'
 import { EditarRemessaComponent } from './pages/editar-remessa/editar-remessa.component'
 import { PacotesComponent } from './pages/pacotes/pacotes.component'
 import { EditarPacoteComponent } from './pages/editar-pacote/editar-pacote.component'
+import { RotaComponent } from './pages/rota/rota.component'
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { EditarPacoteComponent } from './pages/editar-pacote/editar-pacote.compo
     PacotesComponent,
     EditarPacoteComponent,
     RemessasComponent,
-    EditarRemessaComponent
+    EditarRemessaComponent,
+    RotaComponent
   ],
   imports: [
     BrowserModule,
@@ -68,7 +70,7 @@ import { EditarPacoteComponent } from './pages/editar-pacote/editar-pacote.compo
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(environment.googleLogin.clientId, { oneTapEnabled: true })
+            provider: new GoogleLoginProvider(environment.googleLogin.clientId, { oneTapEnabled: false })
           }
         ],
         onError: (err) => {

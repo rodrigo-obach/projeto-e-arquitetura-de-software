@@ -9,6 +9,15 @@ export class GraphHopperClient {
     const { data } = await axios.get<GeocodeResponse>('1/geocode', {
       params: { key: config.apiKey, q, provider: 'nominatim' }
     })
+
+    return data
+  }
+
+  async createRoute(request: CreateRouteRequest) {
+    const { data } = await axios.post<GeocodeResponse>('1/route', request, {
+      params: { key: config.apiKey }
+    })
+
     return data
   }
 }
@@ -21,4 +30,32 @@ export interface GeocodeResponse {
       lng: number
     }
   }[]
+}
+
+export interface CreateRouteRequest {
+  points: [longitude: number, latitude: number][]
+  profile: 'foot' | 'car'
+  locale: string
+  instructions: boolean
+  calc_points: boolean
+}
+
+export interface RoutePath {
+  bbox: number[]
+  points: {
+    type: string
+    coordinates: [longitude: number, latitude: number][]
+  }
+  snapped_waypoints: {
+    type: string
+    coordinates: [longitude: number, latitude: number][]
+  }
+}
+
+export interface CreateRouteResponse {
+  paths: RoutePath[]
+  profile: 'foot' | 'car'
+  locale: string
+  instructions: boolean
+  calc_points: boolean
 }

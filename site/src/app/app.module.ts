@@ -70,7 +70,7 @@ import { RotaComponent } from './pages/rota/rota.component'
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(environment.googleLogin.clientId, { oneTapEnabled: false })
+            provider: new GoogleLoginProvider(environment.googleLogin.clientId, { oneTapEnabled: true })
           }
         ],
         onError: (err) => {

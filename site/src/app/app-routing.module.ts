@@ -20,12 +20,12 @@ const routes: Routes = [
     component: HomeComponent,
     canActivate: [AuthGuardService]
   },
-  // {
-  //   path: 'login',
-  //   component: LoginComponent,
-  //   canActivate: [AuthGuardService],
-  //   data: { unathenticatedOnly: true }
-  // },
+  {
+    path: 'login',
+    component: LoginComponent,
+    canActivate: [AuthGuardService],
+    data: { unathenticatedOnly: true }
+  },
   {
     path: 'sem-acesso',
     component: SemAcessoComponent,
@@ -68,10 +68,10 @@ const routes: Routes = [
     data: { permission: appPermissions.remessa.editar }
   },
   {
-    path: 'login',
+    path: 'remessas/:id/rota',
     component: RotaComponent,
     canActivate: [AuthGuardService],
-    data: { /*permission: appPermissions.remessa.editar,*/ unathenticatedOnly: true, margin: false }
+    data: { permission: appPermissions.remessa.ver, margin: false }
   }
 ]
 

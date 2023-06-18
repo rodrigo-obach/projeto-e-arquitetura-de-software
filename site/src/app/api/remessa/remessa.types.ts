@@ -20,3 +20,15 @@ export interface CriarOuEditarRemessaRequest {
 export interface CriarRemessaResponse {
   id: number
 }
+
+export interface ObterRotaResponse {
+  pacotes: {
+    identificador: string
+    destinatario: string
+    coordinates: number[]
+  }[]
+  points: {
+    type: string
+    coordinates: [number, number][]
+  }
+}

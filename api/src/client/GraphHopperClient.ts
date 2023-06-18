@@ -14,7 +14,7 @@ export class GraphHopperClient {
   }
 
   async createRoute(request: CreateRouteRequest) {
-    const { data } = await axios.post<GeocodeResponse>('1/route', request, {
+    const { data } = await axios.post<CreateRouteResponse>('1/route', request, {
       params: { key: config.apiKey }
     })
 
@@ -38,6 +38,8 @@ export interface CreateRouteRequest {
   locale: string
   instructions: boolean
   calc_points: boolean
+  points_encoded: false
+  optimize: "true" | "false"
 }
 
 export interface RoutePath {

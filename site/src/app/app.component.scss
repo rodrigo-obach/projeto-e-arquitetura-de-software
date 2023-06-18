@@ -23,7 +23,10 @@
   .scroll {
     height: 100%;
     overflow: auto;
-    padding: 16px;
     box-sizing: border-box;
+
+    &.margin {
+      padding: 16px;
+    }
   }
 }

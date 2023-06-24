@@ -28,7 +28,8 @@
       <td>{{ remessa.descricao }}</td>
       <td>{{ remessa.data }}</td>
       <td *ngIf="podeEditar">
-        <a [routerLink]="'/remessas/' + remessa.id" class="btn btn-primary btn-sm">Editar</a>
+        <a [routerLink]="'/remessas/' + remessa.id" class="btn btn-primary btn-sm mx-2">Editar</a>
+        <a [routerLink]="'/remessas/' + remessa.id + '/rota'" class="btn btn-primary btn-sm">Rota</a>
       </td>
     </tr>
   </tbody>

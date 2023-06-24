@@ -4,7 +4,8 @@ import {
   BuscarRemessasResponse,
   CriarOuEditarRemessaRequest,
   CriarRemessaResponse,
-  ObterRemessaResponse
+  ObterRemessaResponse,
+  ObterRotaResponse
 } from './remessa.types'
 import { PagedResult } from '../common/page-result'
 
@@ -30,5 +31,9 @@ export class RemessasClient {
 
   public editar(id: number, request: CriarOuEditarRemessaRequest) {
     return this.httpClient.put<void>(`api/v1/remessas/${id}`, request)
+  }
+
+  public obterRota(id: number) {
+    return this.httpClient.get<ObterRotaResponse[]>(`api/v1/remessas/${id}/rota`)
   }
 }

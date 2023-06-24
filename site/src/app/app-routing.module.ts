@@ -12,6 +12,7 @@ import { UsuariosComponent } from './pages/usuarios/usuarios.component'
 import { PacotesComponent } from './pages/pacotes/pacotes.component'
 import { EditarRemessaComponent } from './pages/editar-remessa/editar-remessa.component'
 import { EditarPacoteComponent } from './pages/editar-pacote/editar-pacote.component'
+import { RotaComponent } from './pages/rota/rota.component'
 
 const routes: Routes = [
   {
@@ -28,7 +29,7 @@ const routes: Routes = [
   {
     path: 'sem-acesso',
     component: SemAcessoComponent,
-    canActivate: [AuthGuardService],
+    canActivate: [AuthGuardService]
   },
   {
     path: 'usuarios',
@@ -65,6 +66,12 @@ const routes: Routes = [
     component: EditarRemessaComponent,
     canActivate: [AuthGuardService],
     data: { permission: appPermissions.remessa.editar }
+  },
+  {
+    path: 'remessas/:id/rota',
+    component: RotaComponent,
+    canActivate: [AuthGuardService],
+    data: { permission: appPermissions.remessa.ver, margin: false }
   }
 ]
 

@@ -19,6 +19,10 @@ const config = {
   graphHopper: {
     url: getString('GRAPH_HOPPER_URL'),
     apiKey: getString('GRAPH_HOPPER_API_KEY'),
+    routeOrigin: {
+      latitude: getfloat('GRAPH_HOPPER_ROUTE_ORIGIN_LATITUDE'),
+      longitude: getfloat('GRAPH_HOPPER_ROUTE_ORIGIN_LONGITUDE')
+    }
   },
   rabbitMQ: {
     url: getString('RABBITMQ_URL'),
@@ -70,6 +74,17 @@ function getInteger(key: string, required: boolean = true): number {
     }
   })
 }
+
+function getfloat(key: string, required: boolean = true): number {
+  return getEnv(key, required, (value) => {
+    const parsedValue = parseFloat(value)
+    return {
+      parsedValue,
+      isValid: !isNaN(parsedValue)
+    }
+  })
+}
+
 
 function getString(key: string, required: boolean = true): string {
   return getEnv(key, required, (value) => ({

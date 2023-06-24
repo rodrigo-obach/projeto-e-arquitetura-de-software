@@ -1,7 +1,6 @@
-import { GoogleLoginProvider, SocialAuthService, SocialUser } from '@abacritt/angularx-social-login'
 import { Component } from '@angular/core'
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router'
-import { appMenu, getAppMenu, MenuItem } from './app-menu'
+import { ActivatedRoute, ActivatedRouteSnapshot, EventType, Router } from '@angular/router'
+import { getAppMenu, MenuItem } from './app-menu'
 import { AuthService, User } from './services/auth.service'
 
 @Component({
@@ -15,14 +14,21 @@ export class AppComponent {
   profileCollapsed: boolean = true
   open: Record<string, boolean> = {}
   user: User | null = null
+  margin: boolean = true
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, router: Router) {
     this.authService.userState.subscribe((user) => {
       this.user = user
     })
 
     this.authService.permissionsState.subscribe((permissions) => {
       this.menu = getAppMenu(permissions)
+    })
+
+    router.events.subscribe((event) => {
+      if (event.type === EventType.ActivationEnd) {
+        this.margin = event.snapshot.data['margin'] !== false
+      }
     })
   }
 
